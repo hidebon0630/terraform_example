@@ -1,11 +1,11 @@
-resource "aws_s3_bucket" "public" {
-  bucket = "public-pragmatic-terraform"
-  acl = "public-read"
+resource "aws_s3_bucket" "alb_log" {
+  bucket = "alb-log-pragmatic-terraform"
 
-  cors_rule {
-    allowed_origins = ["https://example.com"]
-    allowed_methods = ["GET"]
-    allowed_headers = ["*"]
-    max_age_seconds = 3000
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
   }
 }
