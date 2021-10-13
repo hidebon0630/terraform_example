@@ -1,4 +1,9 @@
-resource "aws_s3_bucket" "force_destroy" {
-  bucket = "force_destroy-pragmatic-terraform"
-  force_destroy = true
+resource "aws_vpc" "example" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+
+  tags = {
+    Name = "example"
+  }
 }
