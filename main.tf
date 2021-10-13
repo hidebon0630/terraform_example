@@ -1,8 +1,19 @@
-resource "aws_instance" "example" {
-  ami = "ami-0c3fd0f5d33134a76"
-  instance_type = "t2.micro"
+data "aws_ami" "recent_amazon_linux_2" {
+  most_recent = true
+  owners = ["amazon"]
+
+  filter {
+    name = "name"
+    values = ["amzn2-ami-hvm-2.0.????????-x86_64-gp2"]
+  }
+
+  filter {
+    name = "state"
+    values = ["available"]
+  }
 }
 
-output "example_instance_id" {
-  value = aws_instance.example.id
+resource "aws_instance" "example" {
+  ami = data.aws_ami.recent_amazon_linux_2.image_id
+  instance_type = "t2.micro"
 }
