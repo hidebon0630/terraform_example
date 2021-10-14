@@ -1,8 +1,27 @@
-resource "aws_security_group_rule" "egress_example" {
-  type = "egress"
-  from_port = "0"
-  to_port = "0"
-  protocol = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.example.id
+resource "aws_lb" "example" {
+  name = "example"
+  load_balancer_type = "application"
+  internal = false
+  idle_timeout = 60
+  enable_deletion_protection = true
+
+  subnets = [
+    aws_subnet.public_0.id,
+    aws_subnet.public_1.id,
+  ]
+
+  access_log {
+    bucket = aws_s3_bucket.alb_log.id
+    enabled = true
+  }
+
+  security_groups = [
+    module.http_sg.security_group_id,
+    module.https_sg.security_group_id,
+    module.http_redirect_sg.security_group_id,
+  ]
+}
+
+output "alb_dns_name" {
+  value = aws_lb.example.dns_name
 }
