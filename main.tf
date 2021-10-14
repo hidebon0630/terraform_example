@@ -1,23 +1,15 @@
-module "http_sg" {
-  source = "./security_group"
-  name = "http-sg"
-  vpc_id = aws_vpc.example.id
-  port = 80
-  cidr_blocks = ["0.0.0.0/0"]
-}
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.example.arn
+  port = "80"
+  protocol = "HTTP"
 
-module "https_sg" {
-  source = "./security_group"
-  name = "https-sg"
-  vpc_id = aws_vpc.example.id
-  port = 443
-  cidr_blocks = ["0.0.0.0/0"]
-}
+  default_action {
+    type = "fixed-response"
 
-module "http_redirect_sg" {
-  source = "./security_group"
-  name = "http-redirect_sg"
-  vpc_id = aws_vpc.example.id
-  port = 8080
-  cidr_blocks = ["0.0.0.0/0"]
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "これは「HTTP」です"
+      status_code = "200"
+    }
+  }
 }
