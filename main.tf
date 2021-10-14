@@ -1,21 +1,14 @@
-resource "aws_lb_target_group" "example" {
-  name = "example"
-  target_type = "ip"
-  vpc_id = aws_vpc.example.id
-  port = 80
-  protocol = "HTTP"
-  deregistration_delay = 300
+resource "aws_lb_listener_rule" "example" {
+  listener_arn = aws_lb_listener.https.arn
+  priority = 100
 
-  health_check {
-    path = "/"
-    health_threshold = 5
-    unhealth_threshold = 2
-    timeout = 5
-    interval = 30
-    matcher = 200
-    port = "traffic-port"
-    protocol = "HTTP"
+  action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.example.arn
   }
 
-  depends_on = [aws_lb.example]
+  condition {
+    field = "path-pattern"
+    values = ["/*"]
+  }
 }
