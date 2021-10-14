@@ -1,15 +1,21 @@
-resource "aws_lb_listener" "redirect_http_to_https" {
-  load_balancer_arn = aws_lb.example.arn
-  port = "8080"
+resource "aws_lb_target_group" "example" {
+  name = "example"
+  target_type = "ip"
+  vpc_id = aws_vpc.example.id
+  port = 80
   protocol = "HTTP"
+  deregistration_delay = 300
 
-  default_action {
-    type = "redirect"
-
-    redirect {
-      port = "443"
-      protocol = "HTTPS"
-      status_code = "HTTP_301"
-    }
+  health_check {
+    path = "/"
+    health_threshold = 5
+    unhealth_threshold = 2
+    timeout = 5
+    interval = 30
+    matcher = 200
+    port = "traffic-port"
+    protocol = "HTTP"
   }
+
+  depends_on = [aws_lb.example]
 }
