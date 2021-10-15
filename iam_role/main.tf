@@ -35,3 +35,7 @@ output "iam_role_arn" {
 output "iam_role_name" {
   value = aws_iam_role.default.name
 }
+
+data "aws_iam_policy" "ecs_task_execution_role_policy" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
