@@ -1,15 +1,15 @@
 variable "instance_type" {}
 
 resource "aws_instance" "default" {
-  ami = "ami-0c3fd0f5d33134a76"
+  ami                    = "ami-0c3fd0f5d33134a76"
   vpc_security_group_ids = [aws_security_group.default.id]
-  instance_type = var.instance_type
+  instance_type          = var.instance_type
 
   user_data = <<EOF
-  #!/bin/bash
-  yum install -y httpd
-  systemctl start httpd.service
-  EOF
+    #!/bin/bash
+    yum install -y httpd
+    systemctl start httpd.service
+EOF
 }
 
 resource "aws_security_group" "default" {
