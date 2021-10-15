@@ -28,3 +28,15 @@ module "codepipeline_role" {
   identifier = "codepipeline.amazonaws.com"
   policy = data.aws_iam_policy_document.codepipeline.json
 }
+
+resource "aws_s3_bucket" "artifact" {
+  bucket = "artifact-pragmatic-hidebon0630-terraform-s3-bucket"
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
+  }
+}
