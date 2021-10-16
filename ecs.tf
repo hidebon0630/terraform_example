@@ -8,7 +8,7 @@ resource "aws_ecs_task_definition" "example" {
   memory                   = "512"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  container_definitions     = file("./container_definitions.json")
+  container_definitions    = file("./container_definitions.json")
   execution_role_arn       = module.ecs_task_execution_role.iam_role_arn
 }
 
@@ -51,7 +51,7 @@ module "nginx_sg" {
 }
 
 resource "aws_cloudwatch_log_group" "for_ecs" {
-  name = "./ecs/example"
+  name              = "./ecs/example"
   retention_in_days = 180
 }
 
@@ -70,8 +70,8 @@ data "aws_iam_policy_document" "ecs_task_execution" {
 }
 
 module "ecs_task_execution_role" {
-  source = "./iam_role"
-  name = "ecs-task-execution"
+  source     = "./iam_role"
+  name       = "ecs-task-execution"
   identifier = "ecs-tasks.amazonaws.com"
-  policy = data.aws_iam_policy_document.ecs_task_execution.json
+  policy     = data.aws_iam_policy_document.ecs_task_execution.json
 }
