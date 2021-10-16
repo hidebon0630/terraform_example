@@ -67,7 +67,7 @@ resource "aws_cloudwatch_log_group" "operation" {
 }
 
 resource "aws_ssm_document" "session_manager_run_shell" {
-  name = "SSM-SEssionManagerRunShell"
+  name = "SSM-SessionManagerRunShell"
   document_type = "Session"
   document_format = "JSON"
 
