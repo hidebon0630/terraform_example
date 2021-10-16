@@ -48,3 +48,15 @@ resource "aws_instance" "example_for_operation" {
 output "operation_instance_id" {
   value = aws_instance.example_for_operation.id
 }
+
+resource "aws_s3_bucket" "operation" {
+  bucket = "operation-pragmatic-hidebon0630-terraform-s3-bucket"
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
+  }
+}
