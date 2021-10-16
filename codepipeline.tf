@@ -125,7 +125,7 @@ resource "aws_codepipeline_webhook" "example" {
 }
 
 provider "github" {
-  organization = "hidebon0630"
+  owner = "hidebon0630"
 }
 
 resource "github_repository_webhook" "example" {
